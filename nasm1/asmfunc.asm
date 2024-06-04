@@ -2,7 +2,7 @@ section .data
 A dq 0
 B dq 0
 sdot dq 0
-message db "Dot product = %lld", 13,10,0
+message db "dereferenced = %d", 13,10,0
 section .text
 bits 64
 default rel
@@ -17,16 +17,17 @@ nonavx:
     MOV [A], RDX
     MOV [B], R8
     
+
+    
 DOTPRODUCT:
     MOV RAX, [A]
     MOV R12, [RAX + 8*RSI]
 
     SUB RSP, 8*5
     LEA RCX, [message]
-    MOV RDX, R12
+    MOV RDX, r12
     CALL printf
     ADD RSP, 8*5
-
 
     MOV RAX, [B]
     MOV R13, [RAX + 8*RSI]
