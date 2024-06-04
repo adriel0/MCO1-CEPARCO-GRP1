@@ -19,7 +19,7 @@ int main() {
 	QueryPerformanceFrequency(&Frequency);
 
 	double total_time;
-	long long int count = 2<<20,ans;
+	long long int count = 1<<30,ans;
 	long long int* A = malloc(count * sizeof(long long int));
 	long long int* B = malloc(count * sizeof(long long int));
 	for (long long int i = 0; i < count; i++)
