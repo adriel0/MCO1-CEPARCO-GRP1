@@ -23,12 +23,6 @@ DOTPRODUCT:
     MOV RAX, [A]
     MOV R12, [RAX + 8*RSI]
 
-    SUB RSP, 8*5
-    LEA RCX, [message]
-    MOV RDX, r12
-    CALL printf
-    ADD RSP, 8*5
-
     MOV RAX, [B]
     MOV R13, [RAX + 8*RSI]
     
