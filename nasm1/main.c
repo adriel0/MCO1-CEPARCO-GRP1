@@ -3,11 +3,11 @@
 #include <windows.h>
 #include <time.h>
 
-void func();
+void nonavx();
 
 int main() {
 
-	func();
+	nonavx();
 
 	return 0;
 }
