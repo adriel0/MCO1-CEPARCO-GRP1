@@ -1,4 +1,6 @@
 section .data
+A dq 0
+B dq 0
 sdot dq 0
 section .text
 bits 64
@@ -9,7 +11,9 @@ nonavx:
     ;for getting dot product
     XOR RSI, RSI
     XOR R14, R14
-    MOV R15, [count]
+    MOV [A], RDX
+    MOV [B], R8
+    MOV R15, RCX
     
 DOTPRODUCT:
     MOV RBX, RSI
@@ -31,6 +35,6 @@ DOTPRODUCT:
     JNZ DOTPRODUCT
     
     MOV [sdot], R14
-    
+    MOV RAX, [sdot]
     xor rax, rax
     ret

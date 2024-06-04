@@ -3,11 +3,12 @@
 #include <windows.h>
 #include <time.h>
 
-void nonavx();
+int nonavx(int count, int* A, int* b);
 
 int main() {
-
-	nonavx();
+	int count;
+	int* A, B;
+	nonavx(count,A,B);
 
 	return 0;
 }
