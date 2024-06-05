@@ -76,7 +76,6 @@ int main() {
 
 	ave_time = sum_time / numofruns;
 	printf("average : %f\n", ave_time);
-	//    /* for release add a starting block comment here
 
 	for (long long int i = 0; i < count; i++)
 	{
@@ -106,6 +105,7 @@ int main() {
 	printf("average : %f\n",ave_time);
 
 
+	//    /* for release add a starting block comment here
 
 
 
