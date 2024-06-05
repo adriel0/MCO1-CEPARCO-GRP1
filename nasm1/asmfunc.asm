@@ -57,9 +57,9 @@ DOTPRODUCT1:
 DOTPRODUCT2:
 
     MOV RAX, [A]
-    MOVDQA XMM1, [RAX + 8*RSI]
+    MOVDQU XMM1, [RAX + 8*RSI]
     MOV RAX, [B]
-    MOVDQA XMM2, [RAX + 8*RSI]
+    MOVDQU XMM2, [RAX + 8*RSI]
 
     PMULLD XMM1, XMM2
 
@@ -82,16 +82,16 @@ DOTPRODUCT2:
     DEC R14
     JNZ Done
     MOV RAX, [A]
-    MOVDQA XMM1, [RAX + 8*RSI]
+    MOVDQU XMM1, [RAX + 8*RSI]
     MOV RAX, [B]
-    MOVDQA XMM2, [RAX + 8*RSI]
+    MOVDQU XMM2, [RAX + 8*RSI]
 
     PMULLD XMM1, XMM2
     VPADDQ xmm4,xmm1
 
 
 Done:
-    MOVDQA [sdot], xmm4
+    MOVDQU [sdot], xmm4
     ;MOVSD [sdot], xmm4
     MOV RAX, [sdot]
     ret
@@ -118,12 +118,24 @@ DOTPRODUCT3:
     IMUL RBX, 8
     MOV RAX, [A]
     ADD RAX, RBX    
-    VMOVDQA YMM1, [RAX]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    vmovdqu YMM1, [RAX]
     MOV RBX, RSI
     IMUL RBX, 8
     MOV RAX, [B]
     ADD RAX, RBX
-    VMOVDQA YMM2, [RAX]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    vmovdqu YMM2, [RAX]
 
     VPMULLD YMM1,YMM1, YMM2
 
@@ -153,12 +165,24 @@ DOTPRODUCT3:
     IMUL RBX, 8
     MOV RAX, [A]
     ADD RAX, RBX
-    MOVDQA XMM1, [RAX]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    MOVDQU XMM1, [RAX]
     MOV RBX, RSI
     IMUL RBX, 8
     MOV RAX, [B]
     ADD RAX, RBX
-    MOVDQA XMM2, [RAX]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    MOVDQU XMM2, [RAX]
 
     PMULLD XMM1, XMM2
 
@@ -184,18 +208,30 @@ LAST:
     IMUL RBX, 8
     MOV RAX, [A]
     ADD RAX, RBX
-    MOVDQA XMM1, [RAX]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    MOVDQU XMM1, [RAX]
      MOV RBX, RSI
     IMUL RBX, 8
     MOV RAX, [B]
     ADD RAX, RBX
-    MOVDQA XMM2, [RAX]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    MOVDQU XMM2, [RAX]
 
     PMULLD XMM1, XMM2
     VPADDQ xmm4,xmm1
 
 END:
-    VMOVDQA [sdot], xmm4
+    VMOVDQU [sdot], xmm4
     ;MOVSD [sdot], xmm4
     MOV RAX, [sdot]
     ret
