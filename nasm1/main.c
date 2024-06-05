@@ -14,7 +14,6 @@ long long int dotProduct(long long int count, long long int* A, long long int* B
 	return sum;
 }
 int main() {
-	clock_t start, end;
 	LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
 	LARGE_INTEGER Frequency;
 	QueryPerformanceFrequency(&Frequency);
@@ -58,19 +57,11 @@ int main() {
 		B_ymm[i] = i + 1;
 	}
 	//nonavx
-	start = clock();
-
 	QueryPerformanceCounter(&StartingTime);
 	ans=nonavx(count,A_asm,B_asm);
-
 	QueryPerformanceCounter(&EndingTime);
-	ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
-	ElapsedMicroseconds.QuadPart *= 1000000;
-	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
-	end = clock();
-	total_time = ((double)(end - start)) * 1E3 / CLOCKS_PER_SEC;
+	total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart))/1000;
 	printf("%d\n", ans);
-	printf("%lld\n", ElapsedMicroseconds);
 	printf("%f\n", total_time);
 
 	A_c = (long long int*)malloc(count * sizeof(long long int));
@@ -85,19 +76,12 @@ int main() {
 		B_c[i] = i + 1;
 	}
 	//c
-	start = clock();
-
 	QueryPerformanceCounter(&StartingTime);
 	ans = dotProduct(count, A_c, B_c);
 
 	QueryPerformanceCounter(&EndingTime);
-	ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
-	ElapsedMicroseconds.QuadPart *= 1000000;
-	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
-	end = clock();
-	total_time = ((double)(end - start)) * 1E3 / CLOCKS_PER_SEC;
+	total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
 	printf("%d\n", ans);
-	printf("%lld\n", ElapsedMicroseconds);
 	printf("%f\n", total_time);
 
 
@@ -115,19 +99,11 @@ int main() {
 	}
 
 	//xmm
-	start = clock();
-
 	QueryPerformanceCounter(&StartingTime);
 	ans = xmm(count, A_xmm, B_xmm);
-	end = clock();
 	QueryPerformanceCounter(&EndingTime);
-	ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
-	ElapsedMicroseconds.QuadPart *= 1000000;
-	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
-	
-	total_time = ((double)(end - start)) * 1E3 / CLOCKS_PER_SEC;
+	total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
 	printf("%d\n", ans);
-	printf("%lld\n", ElapsedMicroseconds);
 	printf("%f\n", total_time);
 
 
