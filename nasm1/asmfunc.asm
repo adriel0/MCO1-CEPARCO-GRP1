@@ -101,7 +101,6 @@ Done:
 ymm:
  
     ;for getting dot 
-    push rbp
     XOR RSI, RSI
     XOR R14, R14
     XORPS XMM4,XMM4
@@ -199,5 +198,4 @@ END:
     VMOVDQA [sdot], xmm4
     ;MOVSD [sdot], xmm4
     MOV RAX, [sdot]
-    pop rbp
     ret

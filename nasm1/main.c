@@ -18,9 +18,9 @@ int main() {
 	LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
 	LARGE_INTEGER Frequency;
 	QueryPerformanceFrequency(&Frequency);
-
-	double total_time;
-	long long int count = 6,ans;
+	int numofruns = 30;
+	double total_time,sum_time=0,ave_time;
+	long long int count = 1<<28,ans;
 	long long int * A_c, * B_c, * A_asm, * B_asm, * A_xmm, * B_xmm, * A_ymm, * B_ymm;
 	A_c = (long long int*)malloc(count * sizeof(long long int));
 	if (A_c == NULL)
@@ -58,12 +58,19 @@ int main() {
 		B_ymm[i] = i + 1;
 	}
 	//nonavx
-	QueryPerformanceCounter(&StartingTime);
-	ans=nonavx(count,A_asm,B_asm);
-	QueryPerformanceCounter(&EndingTime);
-	total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart))/1000;
-	printf("%d\n", ans);
-	printf("%f\n", total_time);
+	for (int i = 0; i < numofruns; i++)
+	{
+		QueryPerformanceCounter(&StartingTime);
+		ans = nonavx(count, A_asm, B_asm);
+		QueryPerformanceCounter(&EndingTime);
+		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
+		//printf("%d\n", ans);
+		//printf("%f\n", total_time);
+		sum_time += total_time;
+	}
+	
+	ave_time = sum_time / numofruns;
+	printf("average : %f\n",ave_time);
 
 	A_c = (long long int*)malloc(count * sizeof(long long int));
 	if (A_c == NULL)
@@ -77,13 +84,20 @@ int main() {
 		B_c[i] = i + 1;
 	}
 	//c
-	QueryPerformanceCounter(&StartingTime);
-	ans = dotProduct(count, A_c, B_c);
+	sum_time = 0;
+	for (int i = 0; i < numofruns; i++)
+	{
+		QueryPerformanceCounter(&StartingTime);
+		ans = nonavx(count, A_c, B_c);
+		QueryPerformanceCounter(&EndingTime);
+		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
+		//printf("%d\n", ans);
+		//printf("%f\n", total_time);
+		sum_time += total_time;
+	}
 
-	QueryPerformanceCounter(&EndingTime);
-	total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
-	printf("%d\n", ans);
-	printf("%f\n", total_time);
+	ave_time = sum_time / numofruns;
+	printf("average : %f\n", ave_time);
 
 
 
@@ -100,12 +114,20 @@ int main() {
 	}
 	
 	//xmm
-	QueryPerformanceCounter(&StartingTime);
-	ans = xmm(count, A_xmm, B_xmm);
-	QueryPerformanceCounter(&EndingTime);
-	total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
-	printf("%d\n", ans);
-	printf("%f\n", total_time);
+	sum_time = 0;
+	for (int i = 0; i < numofruns; i++)
+	{
+		QueryPerformanceCounter(&StartingTime);
+		ans = nonavx(count, A_xmm, B_xmm);
+		QueryPerformanceCounter(&EndingTime);
+		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
+		//printf("%d\n", ans);
+		//printf("%f\n", total_time);
+		sum_time += total_time;
+	}
+
+	ave_time = sum_time / numofruns;
+	printf("average : %f\n", ave_time);
 
 	A_ymm = (long long int*)malloc(count * sizeof(long long int));
 	if (A_ymm == NULL)
@@ -119,14 +141,20 @@ int main() {
 		B_ymm[i] = i + 1;
 	}
 	//ymm
-	QueryPerformanceCounter(&StartingTime);
-	ans = ymm(count, A_ymm, B_ymm);
+	sum_time = 0;
+	for (int i = 0; i < numofruns; i++)
+	{
+		QueryPerformanceCounter(&StartingTime);
+		ans = nonavx(count, A_ymm, B_ymm);
+		QueryPerformanceCounter(&EndingTime);
+		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
+		//printf("%d\n", ans);
+		//printf("%f\n", total_time);
+		sum_time += total_time;
+	}
 
-	LARGE_INTEGER EndingTime_ymm;
-	QueryPerformanceCounter(&EndingTime_ymm);
-	total_time = ((double)((EndingTime_ymm.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
-	printf("%d\n", ans);
-	printf("%f\n", total_time);
+	ave_time = sum_time / numofruns;
+	printf("average : %f\n", ave_time);
 
 
 
