@@ -117,24 +117,12 @@ DOTPRODUCT3:
     MOV RBX, RSI
     IMUL RBX, 8
     MOV RAX, [A]
-    ADD RAX, RBX    
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
+    ADD RAX, RBX 
     vmovdqu YMM1, [RAX]
     MOV RBX, RSI
     IMUL RBX, 8
     MOV RAX, [B]
     ADD RAX, RBX
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
     vmovdqu YMM2, [RAX]
 
     VPMULLD YMM1,YMM1, YMM2
@@ -165,23 +153,11 @@ DOTPRODUCT3:
     IMUL RBX, 8
     MOV RAX, [A]
     ADD RAX, RBX
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
     MOVDQU XMM1, [RAX]
     MOV RBX, RSI
     IMUL RBX, 8
     MOV RAX, [B]
     ADD RAX, RBX
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
     MOVDQU XMM2, [RAX]
 
     PMULLD XMM1, XMM2
@@ -208,23 +184,11 @@ LAST:
     IMUL RBX, 8
     MOV RAX, [A]
     ADD RAX, RBX
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
     MOVDQU XMM1, [RAX]
      MOV RBX, RSI
     IMUL RBX, 8
     MOV RAX, [B]
     ADD RAX, RBX
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
     MOVDQU XMM2, [RAX]
 
     PMULLD XMM1, XMM2
