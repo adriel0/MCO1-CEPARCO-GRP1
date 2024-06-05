@@ -50,7 +50,8 @@ DOTPRODUCT1:
     MOV R15, RCX
     MOV [A], RDX
     MOV [B], R8
-    INC R15
+    MOV R14, R15
+    AND R14, 1
     SHR R15, 1
 
 DOTPRODUCT2:
@@ -77,6 +78,19 @@ DOTPRODUCT2:
     DEC R15
     JNZ DOTPRODUCT2
     
+
+    DEC R14
+    JNZ Done
+    MOV RAX, [A]
+    MOVDQA XMM1, [RAX + 8*RSI]
+    MOV RAX, [B]
+    MOVDQA XMM2, [RAX + 8*RSI]
+
+    PMULLD XMM1, XMM2
+    VPADDQ xmm4,xmm1
+
+
+Done:
     MOVDQA [sdot], xmm4
     ;MOVSD [sdot], xmm4
     MOV RAX, [sdot]
@@ -86,29 +100,104 @@ DOTPRODUCT2:
 
 ymm:
  
-    ;for getting dot product
+    ;for getting dot 
+    push rbp
     XOR RSI, RSI
     XOR R14, R14
+    XORPS XMM4,XMM4
     MOV R15, RCX
     MOV [A], RDX
     MOV [B], R8
+    MOV R14, R15
+    AND R14, 3
+    SHR R15, 2
     
 
     
 DOTPRODUCT3:
+    MOV RBX, RSI
+    IMUL RBX, 8
     MOV RAX, [A]
-    MOV R12, [RAX + 8*RSI]
-
+    ADD RAX, RBX    
+    VMOVDQA YMM1, [RAX]
+    MOV RBX, RSI
+    IMUL RBX, 8
     MOV RAX, [B]
-    MOV R13, [RAX + 8*RSI]
+    ADD RAX, RBX
+    VMOVDQA YMM2, [RAX]
+
+    VPMULLD YMM1,YMM1, YMM2
+
+
+    VXORPS YMM3, YMM3,YMM3
+    VPSHUFD YMM3, YMM1, 0b01_00_11_10
+    VPADDQ YMM1,YMM3
+    VEXTRACTF128 xmm11, ymm1, 0
+    VEXTRACTF128 xmm12, ymm1, 1 
+    PADDQ XMM11, XMM12
+     
+     
+    PADDQ XMM4,XMM11
     
-    IMUL R12, R13
     
-    ADD R14, R12
-    INC RSI
+    ADD RSI,4
     DEC R15
     JNZ DOTPRODUCT3
+
+
+
+    MOV R15, R14
+    SHR R15, 1
+    DEC R15
+    JNZ LAST
+    MOV RBX, RSI
+    IMUL RBX, 8
+    MOV RAX, [A]
+    ADD RAX, RBX
+    MOVDQA XMM1, [RAX]
+    MOV RBX, RSI
+    IMUL RBX, 8
+    MOV RAX, [B]
+    ADD RAX, RBX
+    MOVDQA XMM2, [RAX]
+
+    PMULLD XMM1, XMM2
+
+
+    XORPS xmm3,xmm3
+    pshufd xmm3, xmm1, 0b01_00_11_10
+
     
-    MOV [sdot], R14
+
+    VPADDQ xmm1,xmm3
+    VPADDQ xmm4,xmm1
+
+
+    INC RSI
+    INC RSI
+
+
+LAST:
+    AND R14, 1
+    DEC R14
+    JNZ END
+     MOV RBX, RSI
+    IMUL RBX, 8
+    MOV RAX, [A]
+    ADD RAX, RBX
+    MOVDQA XMM1, [RAX]
+     MOV RBX, RSI
+    IMUL RBX, 8
+    MOV RAX, [B]
+    ADD RAX, RBX
+    MOVDQA XMM2, [RAX]
+
+    PMULLD XMM1, XMM2
+    VPADDQ xmm4,xmm1
+
+END:
+    VMOVDQA [sdot], xmm4
+    ;MOVSD [sdot], xmm4
     MOV RAX, [sdot]
+    pop rbp
     ret
