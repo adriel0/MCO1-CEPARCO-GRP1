@@ -21,7 +21,7 @@ int main() {
 	double numofruns = 30.0, initNumofRuns = 5.0;
 	double total_time, sum_time, ave_time;
 	int accuracy;
-	long long int count = 1<<28, ans;
+	long long int count = 1<<30, ans;
 	long long int* A, * B;
 	A = (long long int*)malloc(count * sizeof(long long int));
 	if (A== NULL)
@@ -32,13 +32,13 @@ int main() {
 
 	for (long long int i = 0; i < count; i++)
 	{
-		A[i] = i + 1;
-		B[i] = i + 1;
+		A[i] = 10;
+		B[i] = 10;
 	}
 
 	const long long int Ref_ans = dotProduct(count, A, B);
 	printf("%lld\n", Ref_ans);
-
+	
 	//c
 	sum_time = 0;
 	accuracy = 0;
@@ -70,7 +70,7 @@ int main() {
 	//printf("Accuracy in C: %f\n", accuracy);
 	printf("Number of Misses in C: %d\n", accuracy);
 	printf("average time in C: %f\n", ave_time);
-
+	
 	
 	//nonavx
 	sum_time = 0;
@@ -123,6 +123,7 @@ int main() {
 		if (ans != Ref_ans)
 		{
 			accuracy++;
+			printf("%lld\n", ans);
 		}
 		//printf("%lld\n", ans);
 		//printf("%f\n", total_time);
@@ -132,7 +133,7 @@ int main() {
 	ave_time = sum_time / (float) numofruns;
 	printf("Number of Misses in xmm: %d\n", accuracy);
 	printf("average time in xmm: %f\n", ave_time);
-	
+	/**/
 	//ymm
 	sum_time = 0;
 	accuracy = 0;
@@ -142,6 +143,7 @@ int main() {
 		if (ans != Ref_ans)
 		{
 			accuracy++;
+			printf("%lld\n", ans);
 		}
 	}
 	for (int i = 0; i < numofruns; i++)
@@ -149,7 +151,12 @@ int main() {
 		QueryPerformanceCounter(&StartingTime);
 		ans = ymm(count, A, B);
 		QueryPerformanceCounter(&EndingTime);
-		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
+		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000 / Frequency.QuadPart));
+
+		//printf("temp time in ymm: %f\n", temp);
+		//total_time =  temp/ 1000.0;
+
+		//printf("total time in ymm: %f\n", total_time);
 		if (ans != Ref_ans)
 		{
 			accuracy++;
@@ -157,9 +164,12 @@ int main() {
 		//printf("%lld\n", ans);
 		//printf("%f\n", total_time);
 		sum_time += total_time;
+		//("counting time in ymm: %f\n", sum_time);
 	}
 
-	ave_time = sum_time/numofruns;
+	//printf("sum time in ymm: %f\n", sum_time);
+	//printf("run time in ymm: %f\n", numofruns);
+	ave_time = (double)sum_time/numofruns;
 	printf("Number of Misses in ymm: %d\n", accuracy);
 	printf("average time in ymm: %f\n", ave_time);
 

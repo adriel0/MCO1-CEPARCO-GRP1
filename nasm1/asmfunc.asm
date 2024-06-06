@@ -74,13 +74,13 @@ DOTPRODUCT1:
     PUSH R13
     XOR RSI, RSI
     XOR R14, R14
-    XORPS XMM4,XMM4
     MOV R15, RCX
     MOV [A], RDX
     MOV [B], R8
     MOV R14, R15
     AND R14, 1
     SHR R15, 1
+    XORPS XMM4,XMM4
 
 DOTPRODUCT2:
 
@@ -89,15 +89,10 @@ DOTPRODUCT2:
     MOV RAX, [B]
     MOVDQU XMM2, [RAX + 8*RSI]
 
-    VPMULLQ XMM1, XMM1, XMM2
+    VPMULUDQ  XMM1, XMM1, XMM2
 
-
-    XORPS xmm3,xmm3
-    pshufd xmm3, xmm1, 0b01_00_11_10
 
     
-
-    VPADDQ xmm1,xmm3
     VPADDQ xmm4,xmm1
 
 
@@ -105,7 +100,12 @@ DOTPRODUCT2:
     INC RSI
     DEC R15
     JNZ DOTPRODUCT2
+    XORPS xmm3,xmm3
+    pshufd xmm3, xmm4, 0b01_00_11_10
+
     
+
+    VPADDQ xmm4,xmm3
 
     DEC R14
     JNZ Done
@@ -114,7 +114,7 @@ DOTPRODUCT2:
     MOV RAX, [B]
     MOVDQU XMM2, [RAX + 8*RSI]
 
-    VPMULLQ XMM1, XMM1, XMM2
+    VPMULUDQ  XMM1, XMM1, XMM2
     VPADDQ xmm4,xmm1
 
 
@@ -149,7 +149,6 @@ ymm:
     PUSH RBX
     XOR RSI, RSI
     XOR R14, R14
-    XORPS XMM4,XMM4
     MOV R15, RCX
     MOV [A], RDX
     MOV [B], R8
@@ -159,6 +158,7 @@ ymm:
     
 
     
+    VXORPS YMM4,YMM4
 DOTPRODUCT3:
     MOV RBX, RSI
     IMUL RBX, 8
@@ -171,25 +171,24 @@ DOTPRODUCT3:
     ADD RAX, RBX
     vmovdqu YMM2, [RAX]
 
-    VPMULLQ YMM1,YMM1, YMM2
+    VPMULUDQ  YMM1,YMM1, YMM2
 
-
-    VXORPS YMM3, YMM3,YMM3
-    VPSHUFD YMM3, YMM1, 0b01_00_11_10
-    VPADDQ YMM1,YMM3
-    VEXTRACTF128 xmm11, ymm1, 0
-    VEXTRACTF128 xmm12, ymm1, 1 
-    PADDQ XMM11, XMM12
-     
-     
-    PADDQ XMM4,XMM11
+    VPADDQ YMM4,YMM1
     
     
     ADD RSI,4
     DEC R15
     JNZ DOTPRODUCT3
 
-
+    VXORPS YMM3, YMM3,YMM3
+    VPSHUFD YMM3, YMM4, 0b01_00_11_10
+    VPADDQ YMM4,YMM3
+    VEXTRACTF128 xmm11, ymm4, 0
+    VEXTRACTF128 xmm12, ymm4, 1 
+    PADDQ XMM11, XMM12
+     
+     
+    vmovdqu XMM4,XMM11
 
     MOV R15, R14
     SHR R15, 1
@@ -206,7 +205,7 @@ DOTPRODUCT3:
     ADD RAX, RBX
     MOVDQU XMM2, [RAX]
 
-    VPMULLQ XMM1, XMM1, XMM2
+    VPMULUDQ  XMM1, XMM1, XMM2
 
 
     XORPS xmm3,xmm3
@@ -237,7 +236,7 @@ LAST:
     ADD RAX, RBX
     MOVDQU XMM2, [RAX]
 
-    VPMULLQ XMM1, XMM1, XMM2
+    VPMULUDQ  XMM1, XMM1, XMM2
     VPADDQ xmm4,xmm1
 
 END:
