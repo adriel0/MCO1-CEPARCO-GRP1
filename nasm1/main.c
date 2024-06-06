@@ -18,162 +18,155 @@ int main() {
 	LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
 	LARGE_INTEGER Frequency;
 	QueryPerformanceFrequency(&Frequency);
-	double numofruns = 30;
-	double total_time, sum_time = 0, ave_time;
-	long long int count = 1 << 28, ans;
-	long long int* A_c, * B_c, * A_asm, * B_asm, * A_xmm, * B_xmm, * A_ymm, * B_ymm;
-	A_c = (long long int*)malloc(count * sizeof(long long int));
-	if (A_c == NULL)
+	double numofruns = 30.0, initNumofRuns = 5.0;
+	double total_time, sum_time, ave_time;
+	int accuracy;
+	long long int count = 1<<28, ans;
+	long long int* A, * B;
+	A = (long long int*)malloc(count * sizeof(long long int));
+	if (A== NULL)
 		exit(1);
-	B_c = (long long int*)malloc(count * sizeof(long long int));
-	if (B_c == NULL)
-		exit(1);
-	A_asm = (long long int*)malloc(count * sizeof(long long int));
-	if (A_asm == NULL)
-		exit(1);
-	B_asm = (long long int*)malloc(count * sizeof(long long int));
-	if (B_asm == NULL)
-		exit(1);
-	A_xmm = (long long int*)malloc(count * sizeof(long long int));
-	if (A_xmm == NULL)
-		exit(1);
-	B_xmm = (long long int*)malloc(count * sizeof(long long int));
-	if (B_xmm == NULL)
-		exit(1);
-	A_ymm = (long long int*)malloc(count * sizeof(long long int));
-	if (A_ymm == NULL)
-		exit(1);
-	B_ymm = (long long int*)malloc(count * sizeof(long long int));
-	if (B_ymm == NULL)
+	B = (long long int*)malloc(count * sizeof(long long int));
+	if (B== NULL)
 		exit(1);
 
-
-
-	A_c = (long long int*)malloc(count * sizeof(long long int));
-	if (A_c == NULL)
-		exit(1);
-	B_c = (long long int*)malloc(count * sizeof(long long int));
-	if (B_c == NULL)
-		exit(1);
 	for (long long int i = 0; i < count; i++)
 	{
-		A_c[i] = i + 1;
-		B_c[i] = i + 1;
+		A[i] = i + 1;
+		B[i] = i + 1;
 	}
+
+	const long long int Ref_ans = dotProduct(count, A, B);
+	printf("%lld\n", Ref_ans);
+
 	//c
 	sum_time = 0;
+	accuracy = 0;
+	for (int i = 0; i < initNumofRuns; i++)
+	{
+		ans = dotProduct(count, A, B);
+		if (ans != Ref_ans)
+		{
+			accuracy++;
+		}
+	}
+
 	for (int i = 0; i < numofruns; i++)
 	{
 		QueryPerformanceCounter(&StartingTime);
-		ans = dotProduct(count, A_c, B_c);
+		ans = dotProduct(count, A, B);
 		QueryPerformanceCounter(&EndingTime);
 		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
-		
+		if (ans != Ref_ans)
+		{
+			accuracy++;
+		}
 		//printf("%lld\n", ans);
 		//printf("%f\n", total_time);
 		sum_time += total_time;
 	}
 
 	ave_time = sum_time / numofruns;
+	//printf("Accuracy in C: %f\n", accuracy);
+	printf("Number of Misses in C: %d\n", accuracy);
 	printf("average time in C: %f\n", ave_time);
 
-	for (long long int i = 0; i < count; i++)
-	{
-		A_c[i] = i + 1;
-		B_c[i] = i + 1;
-		A_asm[i] = i + 1;
-		B_asm[i] = i + 1;
-		A_xmm[i] = i + 1;
-		B_xmm[i] = i + 1;
-		A_ymm[i] = i + 1;
-		B_ymm[i] = i + 1;
-	}
+	
 	//nonavx
 	sum_time = 0;
+	accuracy = 0;
+	for (int i = 0; i < initNumofRuns; i++)
+	{
+		ans = nonavx(count, A, B);
+		if (ans != Ref_ans)
+		{
+			accuracy++;
+		}
+	}
 	for (int i = 0; i < numofruns; i++)
 	{
 		QueryPerformanceCounter(&StartingTime);
-		ans = nonavx(count, A_asm, B_asm);
+		ans = nonavx(count, A, B);
 		QueryPerformanceCounter(&EndingTime);
 		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
+		if (ans != Ref_ans)
+		{
+			accuracy++;
+		}
 		//printf("%lld\n", ans);
 		//printf("%f\n", total_time);
 		sum_time += total_time;
 	}
 	
 	ave_time = sum_time / numofruns;
+	printf("Number of Misses in asm: %d\n", accuracy);
 	printf("average time in asm: %f\n",ave_time);
 
 
-	//    /* for release add a starting block comment here
-
-
-
-	A_xmm = (long long int*)malloc(count * sizeof(long long int));
-	if (A_xmm == NULL)
-		exit(1);
-	B_xmm = (long long int*)malloc(count * sizeof(long long int));
-	if (B_xmm == NULL)
-		exit(1);
-	for (long long int i = 0; i < count; i++)
-	{
-		A_xmm[i] = i + 1;
-		B_xmm[i] = i + 1;
-	}
-	
 	//xmm
 	sum_time = 0;
+	accuracy = 0;
+	for (int i = 0; i < initNumofRuns; i++)
+	{
+		ans = xmm(count, A, B);
+		if (ans != Ref_ans)
+		{
+			accuracy++;
+		}
+	}
 	for (int i = 0; i < numofruns; i++)
 	{
 		QueryPerformanceCounter(&StartingTime);
-		ans = xmm(count, A_xmm, B_xmm);
+		ans = xmm(count, A, B);
 		QueryPerformanceCounter(&EndingTime);
 		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
+		if (ans != Ref_ans)
+		{
+			accuracy++;
+		}
 		//printf("%lld\n", ans);
 		//printf("%f\n", total_time);
 		sum_time += total_time;
 	}
 
 	ave_time = sum_time / (float) numofruns;
+	printf("Number of Misses in xmm: %d\n", accuracy);
 	printf("average time in xmm: %f\n", ave_time);
-
-	A_ymm = (long long int*)malloc(count * sizeof(long long int));
-	if (A_ymm == NULL)
-		exit(1);
-	B_ymm = (long long int*)malloc(count * sizeof(long long int));
-	if (B_ymm == NULL)
-		exit(1);
-	for (long long int i = 0; i < count; i++)
-	{
-		A_ymm[i] = i + 1;
-		B_ymm[i] = i + 1;
-	}
+	
 	//ymm
 	sum_time = 0;
+	accuracy = 0;
+	for (int i = 0; i < initNumofRuns; i++)
+	{
+		ans = ymm(count, A, B);
+		if (ans != Ref_ans)
+		{
+			accuracy++;
+		}
+	}
 	for (int i = 0; i < numofruns; i++)
 	{
 		QueryPerformanceCounter(&StartingTime);
-		ans = ymm(count, A_ymm, B_ymm);
+		ans = ymm(count, A, B);
 		QueryPerformanceCounter(&EndingTime);
 		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
+		if (ans != Ref_ans)
+		{
+			accuracy++;
+		}
 		//printf("%lld\n", ans);
 		//printf("%f\n", total_time);
 		sum_time += total_time;
 	}
 
 	ave_time = sum_time/numofruns;
+	printf("Number of Misses in ymm: %d\n", accuracy);
 	printf("average time in ymm: %f\n", ave_time);
 
 
 
-	/*
-	free(A_c);
-	free(B_c);
-	free(A_asm);
-	free(B_asm);
-	free(A_xmm);
-	free(B_xmm);
-	free(A_ymm);
-	free(B_ymm);*/
+	
+	free(A);
+	free(B);
 	return 0;
 }
