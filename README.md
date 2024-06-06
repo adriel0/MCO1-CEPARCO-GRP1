@@ -2,7 +2,6 @@ i.) screenshot of the program output with execution time for all cases
 
 ii.) comparative table of execution time as well as analysis of the performance of different kernels (how many times faster, why is it faster, etc.)
 
-| :----------------------------------: |
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
