@@ -54,7 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="E:\Grade 12\Year 3\Term 1\LYBARCH\SASM\NASM\nasm.props" />
+    <Import Project="..\..\..\..\Downloads\Dman95-SASM-v3.14.0-0-g6bb9ba9\Dman95-SASM-6bb9ba9\Windows\NASM\nasm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -138,6 +138,6 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="E:\Grade 12\Year 3\Term 1\LYBARCH\SASM\NASM\nasm.targets" />
+    <Import Project="..\..\..\..\Downloads\Dman95-SASM-v3.14.0-0-g6bb9ba9\Dman95-SASM-6bb9ba9\Windows\NASM\nasm.targets" />
   </ImportGroup>
 </Project>

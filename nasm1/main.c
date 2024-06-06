@@ -157,7 +157,7 @@ int main() {
 		QueryPerformanceCounter(&EndingTime);
 		total_time = ((double)((EndingTime.QuadPart - StartingTime.QuadPart) * 1000000 / Frequency.QuadPart)) / 1000;
 		//printf("%d\n", ans);
-		//printf("%f\n", total_time);
+		printf("%f\n", total_time);
 		sum_time += total_time;
 	}
 

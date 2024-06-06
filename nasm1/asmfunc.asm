@@ -11,7 +11,14 @@ global nonavx
 global xmm
 global ymm
 nonavx:
- 
+    PUSH RSI
+    PUSH R14
+    PUSH R15
+    PUSH RCX
+    PUSH RDX
+    PUSH R8
+    PUSH R12
+    PUSH R13
     ;for getting dot product
     XOR RSI, RSI
     XOR R14, R14
@@ -38,12 +45,33 @@ DOTPRODUCT1:
     
     MOV [sdot], R14
     MOV RAX, [sdot]
+
+
+    
+    
+    POP R13
+    POP R12
+    POP R8
+    POP RDX
+    POP RCX
+    POP R15
+    POP R14
+    POP RSI
     ret
 
 
     xmm:
  
     ;for getting dot product
+    
+    PUSH RSI
+    PUSH R14
+    PUSH R15
+    PUSH RCX
+    PUSH RDX
+    PUSH R8
+    PUSH R12
+    PUSH R13
     XOR RSI, RSI
     XOR R14, R14
     XORPS XMM4,XMM4
@@ -94,6 +122,14 @@ Done:
     MOVDQU [sdot], xmm4
     ;MOVSD [sdot], xmm4
     MOV RAX, [sdot]
+    POP R13
+    POP R12
+    POP R8
+    POP RDX
+    POP RCX
+    POP R15
+    POP R14
+    POP RSI
     ret
 
 
@@ -101,6 +137,15 @@ Done:
 ymm:
  
     ;for getting dot 
+    
+    PUSH RSI
+    PUSH R14
+    PUSH R15
+    PUSH RCX
+    PUSH RDX
+    PUSH R8
+    PUSH R12
+    PUSH R13
     XOR RSI, RSI
     XOR R14, R14
     XORPS XMM4,XMM4
@@ -198,4 +243,12 @@ END:
     VMOVDQU [sdot], xmm4
     ;MOVSD [sdot], xmm4
     MOV RAX, [sdot]
+    POP R13
+    POP R12
+    POP R8
+    POP RDX
+    POP RCX
+    POP R15
+    POP R14
+    POP RSI
     ret
