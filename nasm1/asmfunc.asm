@@ -146,6 +146,7 @@ ymm:
     PUSH R8
     PUSH R12
     PUSH R13
+    PUSH RBX
     XOR RSI, RSI
     XOR R14, R14
     XORPS XMM4,XMM4
@@ -243,6 +244,7 @@ END:
     VMOVDQU [sdot], xmm4
     ;MOVSD [sdot], xmm4
     MOV RAX, [sdot]
+    POP RBX
     POP R13
     POP R12
     POP R8
