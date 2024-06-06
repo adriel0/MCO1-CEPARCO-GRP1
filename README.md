@@ -6,8 +6,11 @@ ii.) comparative table of execution time as well as analysis of the performance 
 | :-----: | :-------: | :-------: | :-------: | :-------: |
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
 | Average Execution Time (Release)|    0    |    0    |    0    |    0    |
-| Performance (Debug) |
-| Performance (Release) |
+**Performance (Debug)**
+
+Mention how the SIMD contributes to the runtime? 
+
+**Performance (Release)**
 
 
 
