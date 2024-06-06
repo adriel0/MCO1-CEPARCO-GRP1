@@ -8,6 +8,7 @@ For n = 2^20:
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
 | Average Execution Time (Release)|    0    |    0    |    0    |    0    |
 **Performance (Debug)**
+**Performance (Release)**
 
 Mention how the SIMD contributes to the runtime? 
 
