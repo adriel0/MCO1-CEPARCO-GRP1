@@ -62,7 +62,7 @@ C in debug mode is very, very slow. This is because of the lack of optimization,
 
 Performing much better than C in debug mode is ASM (x86-64). In general, Assembly code is supposed to enable the programmer to write optimized code that can outperform high-level language code. However, registers in this kernel can only hold 1 64-bit integer, and with the fact that the program needs to execute a lot of instructions, it performs the second slowest out of the 4 kernels.
 
-Following ASM (x86-64), we have SIMD (xmm registers). This kernel shows that having registers that can store 2 64-bit integers at once is faster than having registers that can only store 1 64-bit integer, allowing data parallelism. 
+Following ASM (x86-64), we have SIMD (xmm registers). This kernel has registers that can store 2 64-bit integers at once, allowing data parallelism. This alone makes the execution time faster than ASM (x86-64). 
 
 However, what's better than being able to store 2 64-bit integers in 1 register? Being able to store 4 64-bit integers in 1 register! With SIMD (ymm registers) having 256-bit registers in its disposal, not only it is an Assembly language, it can also perform faster data parallelism than SIMD (xmm registers). This means that SIMP (ymm registers) is very optimized in terms of execution time, outpacing the other 3 kernels by a good margin. 
 
