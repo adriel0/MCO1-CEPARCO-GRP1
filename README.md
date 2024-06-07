@@ -1,3 +1,11 @@
+CEPARCO S11 Group 1
+CHAN, Ethan Lester
+Dolon, John Michael
+Lu, Andre Giancarlo
+Teng, Adriel Shanlley
+
+Given specs: Dot product of 64-bit integers
+
 i.) comparative table of execution time as well as analysis of the performance of different kernels (how many times faster, why is it faster, etc.), including screenshots of the program output with correctness checking and execution time for all kernels
 
 For n = 2^20:
