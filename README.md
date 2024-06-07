@@ -1,9 +1,9 @@
 CEPARCO S11 Group 1
 
-CHAN, Ethan Lester
-DOLON, John Michael
-LU, Andre Giancarlo
-TENG, Adriel Shanlley
+CHAN, Ethan Lester  
+DOLON, John Michael  
+LU, Andre Giancarlo  
+TENG, Adriel Shanlley  
 
 Given specs: Dot product of 64-bit integers
 
@@ -83,6 +83,6 @@ ii.) Discuss the problems encountered and solutions made, unique methodology use
 
 While running the simulation, one problem we encountered was the release mode reaching out of bounds in its memory access for the YMM registers. We had an AHA moment that we were supposed to push and pop the values into a stack, which solved the issue. Another problem we had was that the initial program was not running on the machines of 3 of our group members. We found out later that one of the instructions we used was for AVX512, and most of our machines did not have it, so we fixed it by changing the vmullq instruction with vmuludq.
 
-In terms of the unique methodology used, we used the pshufd instruction in order to get the sum of the products. To explain how we used the pshufd instruction, we start with its usage in the xmm portion. We started by using the vpmuludq instruction to multiply the data in xmm1 and xmm2 and store the products in xmm1. At this point, we simply wanted to get the sum of the values (products) stored in xmm1, but there is no straightforward instruction to do so. Instead, we used the pshufd instruction on xmm1 with order "01_00_11_10" and stored the result in xmm2. Essentially, this shuffle instruction will align the products so that adding xmm1 and xmm2 will result in the correct sum.
+In terms of the unique methodology used, we handled the boundary checking by first getting the number of elements of the input array and performing a modulo operation on it using the number of elements of the respective register. For xmm, this was done through by performing an AND instruction between the number of elements in the array with 1b. The idea is that if the LSB is 1, it means that there will be an extra element remaining. The same approach was used for ymm but instead of ANDing with 1, we ANDed the number of elements of the array with 11b, so if the two least significant bits are not 00b, it means there will be at least 1 extra element remaining. Next, we simply run our loop by shifting the loop count to the right by 1 for xmm, and 2 for ymm since we want to shift by 2 elements and 4 elements respectively. Then, now that we know if there are extra elements based on the resulting value after the AND operation, we can determine how many extra iterations of the loop will need to be performed, and we can run a special set of instructions modified to ignore garbage values.
 
-The same methodology was applied in the ymm portion wherein we used the vpshufd instruction with order "01_00_11_10" to rearrange the products so that they could be added. However, since ymm can hold 4 64-bit integers, we had to store partial sums in xmm11 and xmm2. Then, we had to add the partial sums in xmm11 and xmm2 in order to obtain the final sum which is the dot product.
+Another unique methodology we used is the pshufd instruction in order to get the sum of the products. To explain how we used the pshufd instruction, we start with its usage in the xmm portion. We started by using the vpmuludq instruction to multiply the data in xmm1 and xmm2 and store the products in xmm1. At this point, we simply wanted to get the sum of the values (products) stored in xmm1, but there is no straightforward instruction to do so. Instead, we used the pshufd instruction on xmm1 with order "01_00_11_10" and stored the result in xmm2. Essentially, this shuffle instruction will align the products so that adding xmm1 and xmm2 will result in the correct sum. The same methodology was applied in the ymm portion wherein we used the vpshufd instruction with order "01_00_11_10" to rearrange the products so that they could be added. However, since ymm can hold 4 64-bit integers, we had to store partial sums in xmm11 and xmm2. Then, we had to add the partial sums in xmm11 and xmm2 in order to obtain the final sum which is the dot product.
