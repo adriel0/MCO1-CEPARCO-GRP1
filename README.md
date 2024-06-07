@@ -1,6 +1,7 @@
 i.) screenshot of the program output with execution time for all cases
 
-ii.) comparative table of execution time as well as analysis of the performance of different kernels (how many times faster, why is it faster, etc.)
+ii.) comparative table of execution time as well as analysis of the performance of different kernels (how many times faster, why is it faster, etc.), including screenshots of the program output with correctness checking for all kernels
+
 
 ![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/134673214/ec19722e-0792-4bde-85c3-c942044d3afc)
 
@@ -38,14 +39,6 @@ Mention how the SIMD contributes to the runtime?
 
 From the resulting data for release mode, we can see that asm (x86-64) is the slowest among the 4 kernels for all values of n that we tried. This is because it does not have any form of optimization, and it executes a lot of instructions compared to the other kernels.  
 
-
-iii.) screenshot of the program output with correctness check (C)
-
-iv.) screenshot of the program output, including correctness check (x86-64)
-
-v.) screenshot of the program output, including correctness check (SIMD XMM register)
-
-vi.) screenshot of the program output, including correctness check (SIMD, YMM register)
 
 vii.) Discuss the problems encountered and solutions made, unique methodology used, AHA moments, etc.
 
