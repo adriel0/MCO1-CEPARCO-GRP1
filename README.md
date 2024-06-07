@@ -6,55 +6,70 @@ For n = 2^20:
 
 Debug:
 
-
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/c9fb541e-2245-4153-8467-42f6dfcb48e5)
 
 Release:
 
-![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/585dea95-1950-46f7-b84e-277ab531a123)
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/7fb27147-20f4-408c-a226-78434466dbdf)
 
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
-| Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    1.092933ms    |    1.565833ms    |    0.961800ms    |    0.333333ms    |
+| Average Execution Time (Debug)|    2.917933ms    |    1.407000ms    |    1.065233ms    |    0.533333ms    |
+| Average Execution Time (Release)|    1.066000ms    |    1.760267ms    |    1.393533ms    |    0.166667ms    |
 
 For n = 2^26:
 
 Debug:
 
-
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/332d5ee9-0cbf-4011-ba45-f7896d52c68f)
 
 Release:
 
-![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/ea7f3b25-59f2-47fd-9f43-e98740f58780)
-
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/dafea09f-e7ea-4c88-8451-27cd58e8267a)
 
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
-| Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    68.608000ms    |    92.775800ms    |    71.739300ms    |    65.100000ms    |
+| Average Execution Time (Debug)|    170.628267ms    |    90.260667ms    |    71.699733ms    |    67.766667ms    |
+| Average Execution Time (Release)|    68.361533ms    |    88.622200ms    |    72.204433ms    |    64.600000ms    |
 
 For n = 2^30:
 
 Debug:
 
-
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/cf27a500-38c4-4b05-b378-e629dd91cb85)
 
 Release:
 
-![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/b8e3f998-afd9-4b72-b105-e571c8142be1)
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/8ba7cf74-fc2a-4e42-87e5-5c8f35d36702)
 
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
-| Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    1,283.116767ms    |    1,696.943567ms    |    1,376.273100ms    |    1,268.833333ms    |
+| Average Execution Time (Debug)|    2,886.756000ms    |    1,496.579067ms    |    1,172.443033ms    |    1,114.700000ms    |
+| Average Execution Time (Release)|    1,124.485600ms    |    1,496.836267ms    |    1,174.047900ms    |    1,056.433333ms    |
 
-**Performance (Debug)**
+**Overall Performance (Debug)**
 
-Mention how the SIMD contributes to the runtime? 
+From the resulting data from testing in Debug mode, we observed that C is by far the slowest of the 4 kernels, followed by ASM (x86-64), then SIMD (xmm registers), and then SIMD (ymm registers) being the fastest.
 
-**Performance (Release)**
+C in debug mode is very, very slow. This is because of the lack of optimization, as in debug mode, most optimizations are removed to preserve the exact structure of the source code, making it much easier for the program to debug. With this, C in debug mode is not made for speed. Rather, it is used to check that the code runs properly.
 
-From the resulting data for release mode, we can see that asm (x86-64) is the slowest among the 4 kernels for all values of n that we tried. This is because it does not have any form of optimization, and it executes a lot of instructions compared to the other kernels.  
+Performing much better than C in debug mode is ASM (x86-64). In general, Assembly code is supposed to enable the programmer to write optimized code that can outperform high-level language code. However, registers in this kernel can only hold 1 64-bit integer, and with the fact that the program needs to execute a lot of instructions, it performs the second slowest out of the 4 kernels.
+
+Following ASM (x86-64), we have SIMD (xmm registers). This kernel shows that having registers that can store 2 64-bit integers at once is faster than having registers that can only store 1 64-bit integer, allowing data parallelism. 
+
+However, what's better than being able to store 2 64-bit integers in 1 register? Being able to store 4 64-bit integers in 1 register! With SIMD (ymm registers) having 256-bit registers in its disposal, not only it is an Assembly language, it can also perform faster data parallelism than SIMD (xmm registers), outpacing the other 3 kernels by a good margin. 
+
+**Overall Performance (Release)**
+
+From the resulting data from testing in Release mode, we observed that ASM (x86-64) is the slowest among the 4 kernels, followed by SIMD (xmm registers), then C, and then SIMD (ymm registers) being the fastest.
+
+ASM (x86-64) is the slowest for all values of n that we tried. This is because it does not have any form of optimization, and it executes a lot of instructions compared to the other kernels.
+
+Next is SIMD (xmm registers). Although being faster than ASM (x86-64) due to each register being able to store 2 64-bit integers at once, and having the ability to perform data parallelism, the program still executes a lot of instructions, slowing the kernel down.
+
+Next is C, showing that C in release mode is much faster than C in debug mode. This is because in release mode, running C programs is much more optimized, due to the kernel not caring about debugging. This makes it faster than ASM (x86-64) and SIMD (xmm registers). 
+
+However, C in release mode still falls short to SIMD (ymm registers). Having the capability of using registers that can hold 4 64-bit integers helps with faster data parallelism. This also helps with CPU Resource Management, allowing the CPU to handle more data per machine cycle.
 
 
 vii.) Discuss the problems encountered and solutions made, unique methodology used, AHA moments, etc.
