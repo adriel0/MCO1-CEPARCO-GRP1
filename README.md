@@ -36,7 +36,7 @@ Mention how the SIMD contributes to the runtime?
 
 **Performance (Release)**
 
-
+From the resulting data for release mode, we can see that asm (x86-64) is the slowest among the 4 kernels for all values of n that we tried. This is because it does not have any form of optimization, and it executes a lot of instructions compared to the other kernels.  
 
 
 iii.) screenshot of the program output with correctness check (C)
