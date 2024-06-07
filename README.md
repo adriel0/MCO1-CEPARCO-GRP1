@@ -40,7 +40,7 @@ vi.) screenshot of the program output, including correctness check (SIMD, YMM re
 
 vii.) Discuss the problems encountered and solutions made, unique methodology used, AHA moments, etc.
 
-While running the simulation, one problem we encountered was the release mode reaching out of bounds in its memory access for the YMM registers. We had an AHA moment that we were supposed to push and pop the values into a stack, which solved the issue.
+While running the simulation, one problem we encountered was the release mode reaching out of bounds in its memory access for the YMM registers. We had an AHA moment that we were supposed to push and pop the values into a stack, which solved the issue. Another problem we had was that the initial program was not running on the machines of 3 of our group members. We found out later that one of the instructions we used was for AVX512, and most of our machines did not have it, so we fixed it by changing the vmullq instruction with vmuludq.
 
 In terms of the unique methodology used, we used the pshufd instruction in order to get the sum of the products. To explain how we used the pshufd instruction, we start with its usage in the xmm portion. We started by using the vpmuludq instruction to multiply the data in xmm1 and xmm2 and store the products in xmm1. At this point, we simply wanted to get the sum of the values (products) stored in xmm1, but there is no straightforward instruction to do so. Instead, we used the pshufd instruction on xmm1 with order "01_00_11_10" and stored the result in xmm2. Essentially, this shuffle instruction will align the products so that adding xmm1 and xmm2 will result in the correct sum.
 
