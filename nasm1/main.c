@@ -18,10 +18,10 @@ int main() {
 	LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
 	LARGE_INTEGER Frequency;
 	QueryPerformanceFrequency(&Frequency);
-	double numofruns = 30.0, initNumofRuns = 5.0;
+	int numofruns = 30, initNumofRuns = 5;
 	double total_time, sum_time, ave_time;
 	int accuracy;
-	long long int count = 1<<30, ans;
+	long long int count = 1<<20, ans;
 	long long int* A, * B;
 	A = (long long int*)malloc(count * sizeof(long long int));
 	if (A== NULL)
@@ -29,15 +29,16 @@ int main() {
 	B = (long long int*)malloc(count * sizeof(long long int));
 	if (B== NULL)
 		exit(1);
-
+	srand(time(0));
 	for (long long int i = 0; i < count; i++)
 	{
-		A[i] = 10;
-		B[i] = 10;
+		A[i] = rand();
+		B[i] = rand();
 	}
 
+	printf("Number of elements: %lld\n\n", count);
 	const long long int Ref_ans = dotProduct(count, A, B);
-	printf("%lld\n", Ref_ans);
+	printf("Dot product reference:\t %lld\n\n", Ref_ans);
 	
 	//c
 	sum_time = 0;
@@ -68,8 +69,9 @@ int main() {
 
 	ave_time = sum_time / numofruns;
 	//printf("Accuracy in C: %f\n", accuracy);
-	printf("Number of Misses in C: %d\n", accuracy);
-	printf("average time in C: %f\n", ave_time);
+	printf("Dot product in C:        %lld\n", ans);
+	printf("Number of misses in C: %d\n", accuracy);
+	printf("Average time of %d runs in in C: %f ms\n\n", numofruns, ave_time);
 	
 	
 	//nonavx
@@ -99,8 +101,9 @@ int main() {
 	}
 	
 	ave_time = sum_time / numofruns;
-	printf("Number of Misses in asm: %d\n", accuracy);
-	printf("average time in asm: %f\n",ave_time);
+	printf("Dot product in asm:      %lld\n", ans);
+	printf("Number of misses in asm: %d\n", accuracy);
+	printf("Average time of %d runs in asm: %f ms\n\n",numofruns , ave_time);
 
 
 	//xmm
@@ -131,8 +134,9 @@ int main() {
 	}
 
 	ave_time = sum_time / (float) numofruns;
-	printf("Number of Misses in xmm: %d\n", accuracy);
-	printf("average time in xmm: %f\n", ave_time);
+	printf("Dot product in xmm:      %lld\n", ans);
+	printf("Number of misses in xmm: %d\n", accuracy);
+	printf("Average time of %d runs in xmm: %f ms\n\n", numofruns, ave_time);
 	/**/
 	//ymm
 	sum_time = 0;
@@ -170,8 +174,9 @@ int main() {
 	//printf("sum time in ymm: %f\n", sum_time);
 	//printf("run time in ymm: %f\n", numofruns);
 	ave_time = (double)sum_time/numofruns;
-	printf("Number of Misses in ymm: %d\n", accuracy);
-	printf("average time in ymm: %f\n", ave_time);
+	printf("Dot product in ymm:      %lld\n", ans);
+	printf("Number of misses in ymm: %d\n", accuracy);
+	printf("Average time of %d runs in ymm: %f ms\n\n", numofruns, ave_time);
 
 
 
