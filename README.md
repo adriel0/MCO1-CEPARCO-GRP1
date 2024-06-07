@@ -4,25 +4,45 @@ ii.) comparative table of execution time as well as analysis of the performance 
 
 For n = 2^20:
 
-![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/134673214/ec19722e-0792-4bde-85c3-c942044d3afc)
+Debug:
+
+
+
+Release:
+
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/137f88fe-78ea-494f-b77b-ee764032292d)
+
 
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    1.082067ms    |    1.537133ms    |    1.369300ms    |    1.426050ms    |
+| Average Execution Time (Release)|    1.130667ms    |    1.584100ms    |    0.980633ms    |    0.700000ms    |
 
 For n = 2^26:
 
-![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/134673214/1ee1d1a5-254d-4706-8297-4b7de7b8531e)
+Debug:
+
+
+
+Release:
+
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/ea7f3b25-59f2-47fd-9f43-e98740f58780)
+
 
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    94.712167ms    |    107.178133ms    |    83.345100ms    |    76.142237ms    |
+| Average Execution Time (Release)|    68.608000ms    |    92.775800ms    |    71.739300ms    |    65.100000ms    |
 
 For n = 2^30:
 
-![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/134673214/6d892cd0-bc0d-4377-b271-ba0de1cb467f)
+Debug:
+
+
+
+Release:
+
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/b8e3f998-afd9-4b72-b105-e571c8142be1)
 
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
