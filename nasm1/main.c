@@ -21,7 +21,7 @@ int main() {
 	int numofruns = 30, initNumofRuns = 5;
 	double total_time, sum_time, ave_time;
 	int accuracy;
-	long long int count = 1<<20, ans;
+	long long int count = 1<<30, ans;
 	long long int* A, * B;
 	A = (long long int*)malloc(count * sizeof(long long int));
 	if (A== NULL)
