@@ -1,9 +1,9 @@
 CEPARCO S11 Group 1
 
 CHAN, Ethan Lester
-Dolon, John Michael
-Lu, Andre Giancarlo
-Teng, Adriel Shanlley
+DOLON, John Michael
+LU, Andre Giancarlo
+TENG, Adriel Shanlley
 
 Given specs: Dot product of 64-bit integers
 
