@@ -64,7 +64,7 @@ Performing much better than C in debug mode is ASM (x86-64). In general, Assembl
 
 Following ASM (x86-64), we have SIMD (xmm registers). This kernel shows that having registers that can store 2 64-bit integers at once is faster than having registers that can only store 1 64-bit integer, allowing data parallelism. 
 
-However, what's better than being able to store 2 64-bit integers in 1 register? Being able to store 4 64-bit integers in 1 register! With SIMD (ymm registers) having 256-bit registers in its disposal, not only it is an Assembly language, it can also perform faster data parallelism than SIMD (xmm registers), outpacing the other 3 kernels by a good margin. 
+However, what's better than being able to store 2 64-bit integers in 1 register? Being able to store 4 64-bit integers in 1 register! With SIMD (ymm registers) having 256-bit registers in its disposal, not only it is an Assembly language, it can also perform faster data parallelism than SIMD (xmm registers). This means that SIMP (ymm registers) is very optimized in terms of execution time, outpacing the other 3 kernels by a good margin. 
 
 **Overall Performance (Release)**
 
