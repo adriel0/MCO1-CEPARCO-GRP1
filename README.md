@@ -1,6 +1,4 @@
-i.) screenshot of the program output with execution time for all cases
-
-ii.) comparative table of execution time as well as analysis of the performance of different kernels (how many times faster, why is it faster, etc.), including screenshots of the program output with correctness checking for all kernels
+i.) comparative table of execution time as well as analysis of the performance of different kernels (how many times faster, why is it faster, etc.), including screenshots of the program output with correctness checking and execution time for all kernels
 
 For n = 2^20:
 
@@ -72,7 +70,7 @@ Next is C, showing that C in release mode is much faster than C in debug mode. T
 However, C in release mode still falls short to SIMD (ymm registers). Having the capability of using registers that can hold 4 64-bit integers helps with faster data parallelism. This also helps with CPU Resource Management, allowing the CPU to handle more data per machine cycle.
 
 
-vii.) Discuss the problems encountered and solutions made, unique methodology used, AHA moments, etc.
+ii.) Discuss the problems encountered and solutions made, unique methodology used, AHA moments, etc.
 
 While running the simulation, one problem we encountered was the release mode reaching out of bounds in its memory access for the YMM registers. We had an AHA moment that we were supposed to push and pop the values into a stack, which solved the issue. Another problem we had was that the initial program was not running on the machines of 3 of our group members. We found out later that one of the instructions we used was for AVX512, and most of our machines did not have it, so we fixed it by changing the vmullq instruction with vmuludq.
 
