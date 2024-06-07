@@ -2,36 +2,34 @@ i.) screenshot of the program output with execution time for all cases
 
 ii.) comparative table of execution time as well as analysis of the performance of different kernels (how many times faster, why is it faster, etc.), including screenshots of the program output with correctness checking for all kernels
 
+For n = 2^20:
 
 ![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/134673214/ec19722e-0792-4bde-85c3-c942044d3afc)
 
-
-For n = 2^20:
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    0    |    0    |    0    |    0    |
+| Average Execution Time (Release)|    1.082067ms    |    1.537133ms    |    1.369300ms    |    1.426050ms    |
+
+For n = 2^26:
 
 ![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/134673214/1ee1d1a5-254d-4706-8297-4b7de7b8531e)
 
-
-For n = 2^26:
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    0    |    0    |    0    |    0    |
+| Average Execution Time (Release)|    94.712167ms    |    107.178133ms    |    83.345100ms    |    76.142237ms    |
+
+For n = 2^30:
 
 ![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/134673214/6d892cd0-bc0d-4377-b271-ba0de1cb467f)
 
-
-For n = 2^30:
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    0    |    0    |    0    |    0    |
+| Average Execution Time (Release)|    1,283.116767ms    |    1,696.943567ms    |    1,376.273100ms    |    1,268.833333ms    |
 
 **Performance (Debug)**
-
 
 Mention how the SIMD contributes to the runtime? 
 
