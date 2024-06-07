@@ -10,13 +10,12 @@ Debug:
 
 Release:
 
-![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/137f88fe-78ea-494f-b77b-ee764032292d)
-
+![image](https://github.com/adriel0/MCO1-CEPARCO-GRP1/assets/115350015/585dea95-1950-46f7-b84e-277ab531a123)
 
 |       | C | x86-64| SIMD XMM | SIMD YMM |
 | :-----: | :-------: | :-------: | :-------: | :-------: |
 | Average Execution Time (Debug)|    0    |    0    |    0    |    0    |
-| Average Execution Time (Release)|    1.130667ms    |    1.584100ms    |    0.980633ms    |    0.700000ms    |
+| Average Execution Time (Release)|    1.092933ms    |    1.565833ms    |    0.961800ms    |    0.333333ms    |
 
 For n = 2^26:
 
